@@ -23,14 +23,17 @@ jobs:
 
       - name: Install AZD
         run: |
-          curl -fsSL https://aka.ms/install-azd.sh | bash
+          curl -fsSL https://aka.ms | bash
 
       - name: Install Azure AI Agents Extension
         run: |
           azd extension install azure.ai.agents
 
+      # FIX: Force azd to share and inherit credentials from your OIDC Azure CLI token
+      - name: Configure AZD Authentication
+        run: |
+          azd config set auth.useAzCliAuth true
+
       - name: Deploy Foundry Agent
-        env:
-          AZURE_AUTHENTICATION_METHOD: azurecli
         run: |
           azd up --no-prompt
