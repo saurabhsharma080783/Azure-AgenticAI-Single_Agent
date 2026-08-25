@@ -30,5 +30,7 @@ jobs:
           azd extension install azure.ai.agents
 
       - name: Deploy Foundry Agent
+        env:
+          AZURE_AUTHENTICATION_METHOD: azurecli
         run: |
           azd up --no-prompt
