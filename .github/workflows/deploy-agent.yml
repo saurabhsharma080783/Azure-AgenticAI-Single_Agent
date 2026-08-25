@@ -21,7 +21,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # FIX: Bulletproof formatting to find and purge the soft-deleted resource
+      # FIX: Added required resource group parameter to the purge command
       - name: Purge Soft-Deleted AI Services Resource
         run: |
           echo "Checking for soft-deleted accounts globally..."
@@ -29,7 +29,11 @@ jobs:
           
           if [ "$DELETED_NAME" = "cog-afukzepc6elw4" ]; then
             echo "Found soft-deleted resource! Wiping it out..."
-            az cognitiveservices account purge --location eastus2 --name cog-afukzepc6elw4
+            az cognitiveservices account purge \
+              --location eastus2 \
+              --resource-group rg-Agentic-AI-Foundry-Azure \
+              --name cog-afukzepc6elw4
+            echo "Purge command completed."
           else
             echo "No soft-deleted resource found. Ready to deploy!"
           fi
