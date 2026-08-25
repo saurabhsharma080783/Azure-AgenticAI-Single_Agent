@@ -23,7 +23,7 @@ jobs:
 
       - name: Install AZD
         run: |
-          curl -fsSL https://aka.ms | bash
+          curl -fsSL https://aka.ms/install-azd.sh | bash
 
       - name: Install Azure AI Agents Extension
         run: |
