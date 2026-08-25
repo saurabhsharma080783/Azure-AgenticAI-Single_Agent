@@ -21,12 +21,16 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      # FIX: Purge the soft-deleted Cognitive Services account if it exists
+      # FIX: Purge the soft-deleted account globally across the subscription
       - name: Purge Soft-Deleted AI Services Resource
         run: |
-          echo "Checking for soft-deleted accounts..."
-          az cognitiveservices account list-deleted --location eastus2 --query "[?name=='cog-afukzepc6elw4'].name" -o tsv | grep -q "cog-afukzepc6elw4" && \
-          az cognitiveservices account purge --location eastus2 --name cog-afukzepc6elw4 || echo "No soft-deleted resource found matching the name."
+          echo "Checking for soft-deleted accounts globally..."
+          if az cognitiveservices account list-deleted --query "[?name=='cog-afukzepc6elw4'].name" -o tsv | grep -q "cog-afukzepc6elw4"; then
+            echo "Found soft-deleted resource! Initiating permanent purge..."
+            az cognitiveservices account purge --location eastus2 --name cog-afukzepc6elw4
+            echo "Purge command submitted successfully."
+          else
+            echo "No soft-deleted resource found matching the name. Proceeding..."
 
       - name: Install AZD
         run: |
