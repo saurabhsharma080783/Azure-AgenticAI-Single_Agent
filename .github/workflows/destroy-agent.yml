@@ -33,6 +33,19 @@ jobs:
         run: |
           azd env new Agentic-AI-Foundry-Test || azd env select Agentic-AI-Foundry-Test
 
+
+      - name: Install AZD
+        run: |
+          curl -fsSL https://aka.ms/install-azd.sh | bash
+
+      - name: Install Azure AI Agents Extension
+        run: |
+          azd extension install azure.ai.agents
+
+      - name: Configure AZD Authentication
+        run: |
+          azd config set auth.useAzCliAuth true
+
       - name: Delete Environment
         run: |
           azd down --force
