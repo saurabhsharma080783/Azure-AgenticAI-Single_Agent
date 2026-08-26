@@ -53,7 +53,7 @@ jobs:
       # FIX: Initialize the azd environment variables explicitly
       - name: Set up AZD Environment
         run: |
-          azd env new Agentic-AI-Foundry-Azure || azd env select Agentic-AI-Foundry-Azure
+          azd env new Agentic-AI-Foundry-Test || azd env select Agentic-AI-Foundry-Test
           azd env set AZURE_SUBSCRIPTION_ID ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           azd env set AZURE_LOCATION eastus2
 
